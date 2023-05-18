@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../src/model/User";
 import { getUsers } from "../src/api/UserApi/getUsers";
+import { useNavigate } from "react-router-dom";
 
 export const appContext = React.createContext<{
   users?: User[];
+  setUsers?: React.Dispatch<React.SetStateAction<User[] | []>>;
 }>({});
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -22,7 +24,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUsers();
   }, []);
 
-  return <appContext.Provider value={{ users }}>{children}</appContext.Provider>;
+  return <appContext.Provider value={{ users, setUsers }}>{children}</appContext.Provider>;
 };
 
 export default AppProvider;
