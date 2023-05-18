@@ -4,7 +4,7 @@ import { getUsers } from "./api/UserApi/getUsers";
 import Navbar from "./compoents/Navbar";
 
 function GuestBook() {
-  const [users, setUsers] = useState<User[] | []>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -23,6 +23,7 @@ function GuestBook() {
   return (
     <>
       <Navbar />
+      <div>Welcome</div>
     </>
   );
 }

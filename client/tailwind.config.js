@@ -65,5 +65,11 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".animation-forwards": { "animation-fill-mode": "forwards" },
+      });
+    },
+  ],
 };

@@ -3,9 +3,9 @@ import GuestBook from "./Guestbook";
 
 function App() {
   return (
-    <>
+    <div className="bg-first">
       <GuestBook />
-    </>
+    </div>
   );
 }
 
