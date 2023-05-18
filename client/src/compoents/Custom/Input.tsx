@@ -1,7 +1,7 @@
 import React from "react";
 
 interface IInputProps extends React.HTMLAttributes<HTMLInputElement> {
-  primary?: boolean;
+  primary?: string;
   placeholder?: string;
   value?: string;
   // eslint-disable-next-line no-unused-vars

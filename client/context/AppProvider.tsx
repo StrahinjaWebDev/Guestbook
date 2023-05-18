@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../src/model/User";
 import { getUsers } from "../src/api/UserApi/getUsers";
-import { useNavigate } from "react-router-dom";
 
 export const appContext = React.createContext<{
   users?: User[];

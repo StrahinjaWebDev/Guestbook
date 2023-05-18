@@ -4,10 +4,13 @@ import { appContext } from "../../../context/AppProvider";
 import Button from "../Custom/Button";
 import { loginUser } from "../../api/UserApi/loginUser";
 import { Link, useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom";
+import PromptModal from "../Modals/PromptModal";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [modal, setModal] = useState(false);
 
   const { setUsers } = useContext(appContext);
 
@@ -23,20 +26,25 @@ const Login = () => {
     console.log(response);
     if (response.success) {
       navigate("/home");
-    } else console.log(response.error);
+    } else setModal(true);
   };
 
   return (
     <div className="h-[40em] w-screen flex justify-center items-center">
       <div className="w-[60vw] h-[24em] bg-second flex flex-col opacity-80 items-center justify-center gap-12 xl:w-[40vw] ">
-        <span className="text-lg text-fourth xl:text-2xl">Write your messagess freely</span>
-        <p className="text-xl text-fourth xl:text-3xl">Login to the Guestbook</p>
+        <span className="text-lg text-fourth xl:text-2xl text-opacity-60">Write your messagess freely</span>
+        <p className="text-xl text-fourth xl:text-3xl ">Login to the Guestbook</p>
         <div className="flex justify-center items-center flex-col gap-2">
-          <Input primary placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
-          <Input primary placeholder=" Password..." value={password} onChange={(e) => setPassword(e.target.value)} />
+          <Input primary="true" placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
+          <Input primary="true" placeholder=" Password..." value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <Button label="Login" third onClick={handleSignIn} />
       </div>
+      {modal &&
+        createPortal(
+          <PromptModal message="Wrong username or password!" closeMessage="Close" confirmed={false} onCancel={() => setModal(false)} />,
+          document.body
+        )}
     </div>
   );
 };
