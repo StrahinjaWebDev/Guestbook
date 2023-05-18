@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { User } from "../src/model/User";
+import { getUsers } from "../src/api/UserApi/getUsers";
 
-export const appContext = React.createContext<{}>({});
+export const appContext = React.createContext<{
+  users?: User[];
+}>({});
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  return <appContext.Provider value={{}}>{children}</appContext.Provider>;
+  const [users, setUsers] = useState<User[] | []>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await getUsers();
+      if (response.success) {
+        if (response.data) setUsers(response.data);
+      } else {
+        console.error(response.error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  return <appContext.Provider value={{ users }}>{children}</appContext.Provider>;
 };
 
 export default AppProvider;
