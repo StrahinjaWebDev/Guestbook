@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { User } from "./model/User";
 import { getUsers } from "./api/UserApi/getUsers";
+import Navbar from "./compoents/Navbar";
 
 function GuestBook() {
   const [users, setUsers] = useState<User[] | []>([]);
@@ -19,7 +20,11 @@ function GuestBook() {
   }, []);
 
   console.log(users);
-  return <div></div>;
+  return (
+    <>
+      <Navbar />
+    </>
+  );
 }
 
 export default GuestBook;
