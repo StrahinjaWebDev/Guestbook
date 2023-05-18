@@ -3,7 +3,7 @@ import Input from "../Custom/Input";
 import { appContext } from "../../../context/AppProvider";
 import Button from "../Custom/Button";
 import { loginUser } from "../../api/UserApi/loginUser";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import PromptModal from "../Modals/PromptModal";
 
@@ -31,7 +31,7 @@ const Login = () => {
 
   return (
     <div className="h-[40em] w-screen flex justify-center items-center">
-      <div className="w-[60vw] h-[24em] bg-second flex flex-col opacity-80 items-center justify-center gap-12 xl:w-[40vw] ">
+      <div className="w-[60vw] h-[24em] bg-second flex flex-col opacity-80 items-center justify-center gap-12 xl:w-[40vw]  rounded-3xl">
         <span className="text-lg text-fourth xl:text-2xl text-opacity-60">Write your messagess freely</span>
         <p className="text-xl text-fourth xl:text-3xl ">Login to the Guestbook</p>
         <div className="flex justify-center items-center flex-col gap-2">

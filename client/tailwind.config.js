@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        first: "#020438",
-        second: "#284184",
-        third: "#1f8ea3",
-        fourth: " #00eaff",
+        first: "#000000",
+        second: "#3D0000",
+        third: "#950101",
+        fourth: "#FF0000",
       },
       keyframes: {
         appearFromTop: {
