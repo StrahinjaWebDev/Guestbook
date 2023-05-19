@@ -13,18 +13,18 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(cuid())
   username String  @unique
   password String?
   posts    Post[]
 }
 
 model Post {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(cuid())
   title    String
   content  String?
   author   User    @relation(fields: [authorId], references: [id])
-  authorId Int
+  authorId String
 
   @@index([authorId])
 }

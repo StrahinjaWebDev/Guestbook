@@ -4,7 +4,9 @@ config();
 import express, { Request, Response } from "express";
 import { prisma } from "./utils/db";
 import cors from "cors";
+import { v4 as uuidv4 } from "uuid";
 import { User } from "@prisma/client";
+import { Session } from "./model/Session";
 
 const PORT = 5000;
 
@@ -15,7 +17,10 @@ app.use(
     origin: "*",
   })
 );
+
 app.use(express.json());
+
+const sessions: Session = {};
 
 app.get("/users", async (req: Request, res: Response) => {
   const users = await prisma.user.findMany();
@@ -23,19 +28,30 @@ app.get("/users", async (req: Request, res: Response) => {
   console.log(users);
 });
 
-app.post("/users/login"),
-  async (req: Request, res: Response) => {
-    const { username, password } = req.body;
+app.post("/users/login", async (req: Request, res: Response) => {
+  const { username, password } = req.body;
 
-    const user = await prisma.user.findUnique({
-      where: { username },
-    });
-    if (!user || user.password !== password) {
-      res.status(401).json({ error: "Invalid username or password" });
-    } else {
-      res.json({ message: "Success" });
-    }
-  };
+  const user = await prisma.user.findUnique({
+    where: { username },
+  });
+  if (!user || user.password !== password) {
+    res.status(401).json({ error: "Invalid username or password" });
+  } else {
+    const sesionId = uuidv4();
+    const { id } = user;
+    sessions[sesionId] = { username, id };
+    res.set("Set-Cookie", `session=${sesionId}`);
+    res.json({ message: "Success" });
+  }
+});
+
+app.post("/users/logout", async (req: Request, res: Response) => {
+  const sessionId = req.headers.cookie?.split("=")[1];
+  if (sessionId) {
+    delete sessions[sessionId];
+  }
+  res.set("Set-Cookie", "session=; expires=Thu, 01 Jan 1970 00:00:00 GMT");
+});
 
 app.post("/", async (req: Request, res: Response) => {
   const newUser = await prisma.user.create({
