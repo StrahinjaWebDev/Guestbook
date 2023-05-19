@@ -5,17 +5,18 @@ function Home() {
   const { handleLogout, user } = useContext(appContext);
 
   console.log(user);
+
   return (
     <>
       <div className="text-red-500">
         Welcome
-        <>
+        <div>
           {user && (
             <div key={user.id}>
-              <p>{user.username}</p>
+              <p className="text-blue-500">{user.username}</p>
             </div>
           )}
-        </>
+        </div>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </>

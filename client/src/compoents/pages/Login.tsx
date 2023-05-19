@@ -6,22 +6,16 @@ import { loginUser } from "../../api/UserApi/loginUser";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import PromptModal from "../Modals/PromptModal";
+import jwtDecode from "jwt-decode";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [modal, setModal] = useState(false);
 
-  const { user, setUser } = useContext(appContext);
+  const { setUser } = useContext(appContext);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser && setUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
 
   const handleSignIn = async () => {
     const user = {
@@ -31,14 +25,12 @@ const Login = () => {
     const response = await loginUser(user);
     if (response.success && response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
-      if (setUser) setUser(response.data);
+      setUser && setUser(jwtDecode(response.data));
       navigate("/home");
     } else {
       setModal(true);
     }
   };
-
-  console.log(user);
 
   return (
     <div className="h-[40em] w-screen flex justify-center items-center">

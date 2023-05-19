@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { User } from "../src/model/User";
-import { getUsers } from "../src/api/UserApi/getUsers";
+import jwtDecode from "jwt-decode";
 
 export const appContext = React.createContext<{
-  user?: User[];
-  setUser?: React.Dispatch<React.SetStateAction<User[] | []>>;
+  user?: User | null;
+  setUser?: React.Dispatch<React.SetStateAction<User | null>>;
   handleLogout?: () => void;
 }>({});
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User[] | []>([]);
+  const [user, setUser] = useState<User | null>(null);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setUser([]);
+    setUser(null);
   };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser && setUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(jwtDecode(storedUser) as User);
     }
   }, []);
 
