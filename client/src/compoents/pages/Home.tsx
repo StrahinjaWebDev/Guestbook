@@ -1,23 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { appContext } from "../../../context/AppProvider";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const { handleLogout, user } = useContext(appContext);
 
+  const navigate = useNavigate();
+
   console.log(user);
+
+  useEffect(() => {
+    if (user === null) {
+      navigate("/");
+    } else navigate("/home");
+  }, [user, navigate]);
 
   return (
     <>
       <div className="text-red-500">
         Welcome
-        <div>
-          {user && (
-            <div key={user.id}>
-              <p className="text-blue-500">{user.username}</p>
-            </div>
-          )}
-        </div>
-        <button onClick={handleLogout}>Logout</button>
+        {user && (
+          <div key={user.id}>
+            <p className="text-blue-500">{user.username}</p>
+          </div>
+        )}
       </div>
     </>
   );

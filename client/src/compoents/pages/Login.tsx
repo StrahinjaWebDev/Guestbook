@@ -3,7 +3,7 @@ import Input from "../Custom/Input";
 import { appContext } from "../../../context/AppProvider";
 import Button from "../Custom/Button";
 import { loginUser } from "../../api/UserApi/loginUser";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import PromptModal from "../Modals/PromptModal";
 import jwtDecode from "jwt-decode";
@@ -13,7 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [modal, setModal] = useState(false);
 
-  const { setUser } = useContext(appContext);
+  const { setUser, user } = useContext(appContext);
 
   const navigate = useNavigate();
 
@@ -32,24 +32,37 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (user !== null) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
+
   return (
-    <div className="h-[40em] w-screen flex justify-center items-center">
-      <div className="w-[60vw] h-[24em] bg-second flex flex-col opacity-80 items-center justify-center gap-12 xl:w-[40vw]  rounded-3xl">
-        <span className="text-lg text-fourth xl:text-2xl text-opacity-60">Write your messagess freely</span>
-        <p className="text-xl text-fourth xl:text-3xl ">Login to the Guestbook</p>
-        <div className="flex justify-center items-center flex-col gap-2">
-          <Input primary="true" placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
-          <Input type="password" primary="true" placeholder=" Password..." value={password} onChange={(e) => setPassword(e.target.value)} />
+    <>
+      <div className="h-[40em] w-screen flex justify-center items-center">
+        <div className="w-[60vw] h-[24em] bg-second flex flex-col opacity-80 items-center justify-center gap-12 xl:w-[40vw]  rounded-3xl">
+          <span className="text-lg text-fourth xl:text-2xl text-opacity-60">Write your messages freely</span>
+          <p className="text-xl text-fourth xl:text-3xl">Login to the Guestbook</p>
+          <div className="flex justify-center items-center flex-col gap-2">
+            <Input primary="true" placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
+            <Input
+              type="password"
+              primary="true"
+              placeholder=" Password..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <Button label="Login" third onClick={handleSignIn} />
         </div>
-        <Button label="Login" third onClick={handleSignIn} />
+        {modal &&
+          createPortal(
+            <PromptModal message="Wrong username or password!" closeMessage="Close" confirmed={false} onCancel={() => setModal(false)} />,
+            document.body
+          )}
       </div>
-      {modal &&
-        createPortal(
-          <PromptModal message="Wrong username or password!" closeMessage="Close" confirmed={false} onCancel={() => setModal(false)} />,
-          document.body
-        )}
-    </div>
+    </>
   );
 };
-
 export default Login;
