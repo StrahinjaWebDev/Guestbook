@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Input from "../Custom/Input";
 import { appContext } from "../../../context/AppProvider";
 import Button from "../Custom/Button";
@@ -12,22 +12,33 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [modal, setModal] = useState(false);
 
-  const { setUsers } = useContext(appContext);
+  const { user, setUser } = useContext(appContext);
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser && setUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   const handleSignIn = async () => {
-    const User = {
+    const user = {
       username: username,
       password: password,
     };
-    const response = await loginUser(User);
-    console.log(User);
-    console.log(response);
-    if (response.success) {
+    const response = await loginUser(user);
+    if (response.success && response.data) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+      if (setUser) setUser(response.data);
       navigate("/home");
-    } else setModal(true);
+    } else {
+      setModal(true);
+    }
   };
+
+  console.log(user);
 
   return (
     <div className="h-[40em] w-screen flex justify-center items-center">
@@ -36,7 +47,7 @@ const Login = () => {
         <p className="text-xl text-fourth xl:text-3xl ">Login to the Guestbook</p>
         <div className="flex justify-center items-center flex-col gap-2">
           <Input primary="true" placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
-          <Input primary="true" placeholder=" Password..." value={password} onChange={(e) => setPassword(e.target.value)} />
+          <Input type="password" primary="true" placeholder=" Password..." value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <Button label="Login" third onClick={handleSignIn} />
       </div>

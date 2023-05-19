@@ -3,27 +3,27 @@ import { User } from "../src/model/User";
 import { getUsers } from "../src/api/UserApi/getUsers";
 
 export const appContext = React.createContext<{
-  users?: User[];
-  setUsers?: React.Dispatch<React.SetStateAction<User[] | []>>;
+  user?: User[];
+  setUser?: React.Dispatch<React.SetStateAction<User[] | []>>;
+  handleLogout?: () => void;
 }>({});
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [users, setUsers] = useState<User[] | []>([]);
+  const [user, setUser] = useState<User[] | []>([]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser([]);
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await getUsers();
-      if (response.success) {
-        if (response.data) setUsers(response.data);
-      } else {
-        console.error(response.error);
-      }
-    };
-
-    fetchUsers();
+    const storedUser = localStorage.getItem("user");
+    if (storedUser && setUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
-  return <appContext.Provider value={{ users, setUsers }}>{children}</appContext.Provider>;
+  return <appContext.Provider value={{ user, setUser, handleLogout }}>{children}</appContext.Provider>;
 };
 
 export default AppProvider;

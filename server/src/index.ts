@@ -34,14 +34,14 @@ app.post("/users/login", async (req: Request, res: Response) => {
   const user = await prisma.user.findUnique({
     where: { username },
   });
+
   if (!user || user.password !== password) {
     res.status(401).json({ error: "Invalid username or password" });
   } else {
-    const sesionId = uuidv4();
-    const { id } = user;
-    sessions[sesionId] = { username, id };
-    res.set("Set-Cookie", `session=${sesionId}`);
-    res.json({ message: "Success" });
+    const sessionId = uuidv4();
+    const { id, username } = user;
+    sessions[sessionId] = { username, id: user.id };
+    res.json(user);
   }
 });
 

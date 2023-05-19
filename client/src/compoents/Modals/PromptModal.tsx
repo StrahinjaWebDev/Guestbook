@@ -29,7 +29,7 @@ const PromptModal = ({ message, closeMessage, onConfirm, onCancel: close, confir
         ${!isClosing ? "animate-[appearScale_0.2s_ease]" : "animate-[dissAppearScale_0.2s_ease]"}
         `}
       >
-        <p className="font-semibold text-center text-main mx-10">{message}</p>
+        <p className="font-bold text-center text-main mx-10">{message}</p>
         <div className="flex w-full mt-4 justify-center gap-2">
           {confirmed && (
             <button className="bg-white text-main border border-main rounded-xl px-6 py-2 font-medium" onClick={onConfirm}>
