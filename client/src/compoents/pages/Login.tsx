@@ -3,7 +3,7 @@ import Input from "../Custom/Input";
 import { appContext } from "../../../context/AppProvider";
 import Button from "../Custom/Button";
 import { loginUser } from "../../api/UserApi/loginUser";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import PromptModal from "../Modals/PromptModal";
 import jwtDecode from "jwt-decode";
