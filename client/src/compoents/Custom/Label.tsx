@@ -2,9 +2,9 @@ import React from "react";
 import classNames from "classnames";
 
 interface ILabelProps {
-  primary: boolean;
-  text: string;
-  htmlText: string;
+  primary?: boolean;
+  text?: string | undefined;
+  htmlText?: string;
 }
 
 const Label = ({ primary, text, htmlText, ...props }: ILabelProps) => {
