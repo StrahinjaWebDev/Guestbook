@@ -66,6 +66,8 @@ export default {
     },
   },
   plugins: [
+    // eslint-disable-next-line no-undef
+    require("tailwind-scrollbar"),
     function ({ addUtilities }) {
       addUtilities({
         ".animation-forwards": { "animation-fill-mode": "forwards" },

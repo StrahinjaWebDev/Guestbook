@@ -1,5 +1,6 @@
 import React from "react";
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Navbar from "./compoents/Navbar";
 import Home from "./compoents/pages/Home";
 import Main from "./compoents/pages/Main";
@@ -17,9 +18,12 @@ function App() {
   );
 
   return (
-    <div className="bg-first h-[100vh]">
-      <RouterProvider router={router} />
-    </div>
+    <>
+      <Toaster />
+      <div className="bg-first h-[100vh]">
+        <RouterProvider router={router} />
+      </div>
+    </>
   );
 }
 

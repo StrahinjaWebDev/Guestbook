@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scroll-modern::-webkit-scrollbar {
+  width: 7px;
+  height: 8px;
+}
+
+.scroll-modern::-webkit-scrollbar-track {
+  @apply bg-zinc-800;
+}
+
+.scroll-modern::-webkit-scrollbar-thumb {
+  @apply bg-zinc-500;
+  @apply rounded-full;
+}
+
+.scroll-modern::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

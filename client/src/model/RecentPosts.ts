@@ -1,9 +1,7 @@
-export interface Post {
+export interface RecentPosts {
   id?: string;
   email?: string;
   content?: string;
   authorId?: string;
-  author?: {
-    username?: string;
-  };
+  author?: string;
 }

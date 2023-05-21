@@ -1,6 +1,6 @@
 import ApiClient from "../BaseApi/ApiClient";
 import { AxiosResponse, AxiosError } from "axios";
-import { Post } from "../../model/Post";
+import { RecentPosts } from "../../model/RecentPosts";
 
 interface ResponseType<T> {
   success: Boolean;
@@ -8,15 +8,15 @@ interface ResponseType<T> {
   error?: string;
 }
 
-const getRecentPosts = async (): Promise<ResponseType<Post[]>> => {
+const getRecentPosts = async (): Promise<ResponseType<RecentPosts[]>> => {
   try {
-    const { data, status }: AxiosResponse<Post[]> = await ApiClient.get<Post[]>("/posts/recent");
+    const { data, status }: AxiosResponse<RecentPosts[]> = await ApiClient.get<RecentPosts[]>("/posts/recent");
 
-    const response: ResponseType<Post[]> = { success: true, data };
+    const response: ResponseType<RecentPosts[]> = { success: true, data };
     return response;
   } catch (error) {
     const { message } = error as AxiosError;
-    const response: ResponseType<Post[]> = { success: false, error: message };
+    const response: ResponseType<RecentPosts[]> = { success: false, error: message };
     return response;
   }
 };

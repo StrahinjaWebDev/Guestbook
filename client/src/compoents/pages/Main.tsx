@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import { toast } from "react-hot-toast";
 import Input from "../Custom/Input";
 import Button from "../Custom/Button";
 import Label from "../Custom/Label";
@@ -10,11 +11,12 @@ import { getPosts } from "../../api/PostApi/getPosts";
 import { Post } from "../../model/Post";
 
 const Main = () => {
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
+  const [httpStatus, setHttpStatus] = useState("");
+  const [requestLoading, setRequestLoading] = useState(false);
 
-  const { user } = useContext(appContext);
+  const { user, isLoading } = useContext(appContext);
 
   const navigate = useNavigate();
 
@@ -25,6 +27,7 @@ const Main = () => {
         setPosts(response.data);
       } else {
         console.log(response.error);
+        toast.error("Can't load posts right now, try again later...");
       }
     } catch (error) {
       console.log(error);
@@ -32,16 +35,25 @@ const Main = () => {
   };
 
   const handlePostMessage = async () => {
+    setRequestLoading(true);
     const post = {
       authorId: user?.id,
-      email: email,
       content: message,
     };
-    const response = await postMessage(post);
-    if (response.success) {
-      console.log("Poslato");
-    } else {
-      console.log(response.error);
+    try {
+      setHttpStatus("Sending message...");
+      const response = await postMessage(post);
+      setRequestLoading(false);
+      if (response.success) {
+        setHttpStatus("Message sent successfully!");
+        toast.success("Successfully sent message!");
+        setRequestLoading(true);
+      } else if (response.error) {
+        setHttpStatus("Error sending message!");
+        toast.error("Something went wrong!");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -49,8 +61,13 @@ const Main = () => {
     fetchAllPosts();
   }, []);
 
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate("/");
+    }
+  }, [user]);
+
   console.log(user);
-  console.log(posts);
 
   return (
     <div className="flex justify-around items-center h-3/4 flex-col xl:flex-row ">
@@ -61,32 +78,21 @@ const Main = () => {
             <Label htmlText="nameInput" primary />
           </div>
 
-          <div className="relative mb-6">
-            <Input
-              secondary
-              type="email"
-              id="emailInput"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Label htmlText="emailInput" primary text="Email address" />
-          </div>
-
           <div className="relative mb-6" data-te-input-wrapper-init>
             <TextArea primary id="message" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} />
             <Label htmlText="message" primary text="Message" />
           </div>
 
-          <Button fifth label="Send" onClick={handlePostMessage} />
+          <Button fifth label="Send" disabled={requestLoading} onClick={handlePostMessage} />
+          <span className="text-blue-500 font-bold">{httpStatus}</span>
         </form>
       </div>
-      <div className="bg-gray-300 opacity-90 p-6 w-[20em] xl:w-[35em] flex flex-col items-center">
-        <span>Which user posted?</span>
+      <div className="bg-gray-300 max-h-[20em] opacity-90 p-6 w-[20em] xl:w-[35em] flex flex-col items-center overflow-y-auto scroll-modern">
+        <span className="font-bold text-xl text-second">Which users posted?</span>
         {posts.map((post) => {
           return (
-            <div key={post.id} className="flex gap-12">
-              <p>{post.author}</p>
+            <div key={post.id} className="flex gap-12 mt-3">
+              <p className="text-first font-semibold">{post.author?.username}</p>
             </div>
           );
         })}
