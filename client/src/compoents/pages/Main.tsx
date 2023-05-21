@@ -18,7 +18,6 @@ const Main = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [httpStatus, setHttpStatus] = useState("");
   const [requestLoading, setRequestLoading] = useState(false);
-  const [promptModal, setPromptModal] = useState(false);
 
   const { user, isLoading } = useContext(appContext);
 
@@ -75,13 +74,11 @@ const Main = () => {
         const updatedPosts = posts.filter((post) => post.id !== postId);
         setPosts(updatedPosts);
         toast.success("Post deleted successfully");
-        setPromptModal(false);
       } else {
         toast.error("You can only delete your own posts");
       }
     } catch (error) {
       console.log(error);
-      setPromptModal(false);
       toast.error("Failed to delete post");
     }
   };
@@ -100,8 +97,8 @@ const Main = () => {
 
   return (
     <div className="flex justify-around items-center h-3/4 flex-col xl:flex-row ">
-      <div className="rounded-lg bg-gray-300 opacity-90 p-6 w-[20em] xl:w-[35em]">
-        <form>
+      <div className="rounded-lg bg-gray-300 opacity-90 p-6 w-[20em] xl:w-[35em] ">
+        <form className="flex flex-col justify-center">
           <div className="relative mb-6">
             <Input disabledInput type="text" id="nameInput" disabled value={user?.username || ""} />
             <Label htmlText="nameInput" primary />
@@ -118,16 +115,16 @@ const Main = () => {
             disabled={requestLoading || posts.some((post) => post.author?.id === user?.id)}
             onClick={handlePostMessage}
           />
-          <span className="text-blue-500 font-bold text-center w-[100%]">{httpStatus}</span>
+          <span className="text-blue-500 font-bold text-center pt-4">{httpStatus}</span>
         </form>
       </div>
-      <div className="bg-gray-300 max-h-[20em] opacity-90 p-6 w-[20em] xl:w-[35em] flex flex-col items-center overflow-y-auto scroll-modern">
-        <span className="font-bold text-xl text-second">Which users posted?</span>
+      <div className="bg-gray-300 max-h-[20em] opacity-90 p-6 w-[20em] xl:w-[30em] rounded-[20px] flex flex-col items-center overflow-y-auto scroll-modern bg-opacity-95">
+        <span className="font-bold text-2xl text-second">Users that posted on Guestbook</span>
         {posts.map((post) => {
           return (
-            <div key={post.id} className="flex mt-3 items-center justify-between">
-              <p className="text-first font-semibold text-center">{post.author?.username}</p>
-              <button className="text-red-500 font-semibold absolute ml-12" onClick={() => post.id && handleDeletePost(post.id)}>
+            <div key={post.id} className="flex mt-8 justify-between w-full bg-gray-300 rounded-full bg-opacity-50">
+              <p className="text-first font-medium pl-12">{post.author?.username}</p>
+              <button className="text-red-500 font-semibold mr-4 " onClick={() => post.id && handleDeletePost(post.id)}>
                 Delete post
               </button>
             </div>
