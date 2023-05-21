@@ -107,4 +107,19 @@ app.post("/posts", async (req: Request, res: Response) => {
   }
 });
 
+app.delete("/posts/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const deletedPost = await prisma.post.delete({
+      where: { id: id },
+    });
+    res.json(deletedPost);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the post" });
+  }
+});
+
 app.listen(PORT, () => console.log("Log check"));
