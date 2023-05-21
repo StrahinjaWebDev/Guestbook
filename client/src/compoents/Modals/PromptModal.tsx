@@ -9,18 +9,17 @@ interface Props {
   confirmed?: boolean;
 }
 
-const PromptModal = ({ message, closeMessage, onConfirm, onCancel: close, confirmMessage }: Props) => {
+const PromptModal = ({ message, closeMessage, onConfirm, onCancel, confirmMessage, confirmed }: Props) => {
   const [isClosing, setIsClosing] = useState(false);
-  const [confirmed] = useState(false);
 
   useEffect(() => {
-    if (isClosing && close) {
+    if (isClosing && onCancel) {
       setTimeout(() => {
         setIsClosing(false);
-        close();
+        onCancel();
       }, 200);
     }
-  }, [isClosing]);
+  }, [isClosing, onCancel]);
 
   return (
     <div className="fixed h-screen w-screen  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
