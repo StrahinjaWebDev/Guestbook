@@ -27,7 +27,6 @@ const sessions: Session = {};
 app.get("/users", async (req: Request, res: Response) => {
   const users = await prisma.user.findMany();
   res.json(users);
-  console.log(users);
 });
 
 app.post("/users/login", async (req: Request, res: Response) => {
@@ -53,14 +52,6 @@ app.post("/users/login", async (req: Request, res: Response) => {
   }
 });
 
-// app.post("/users/logout", async (req: Request, res: Response) => {
-//   const sessionId = req.headers.cookie?.split("=")[1];
-//   if (sessionId) {
-//     delete sessions[sessionId];
-//   }
-//   res.set("Set-Cookie", "session=; expires=Thu, 01 Jan 1970 00:00:00 GMT");
-// });
-
 app.post("/", async (req: Request, res: Response) => {
   const newUser = await prisma.user.create({
     data: {
@@ -74,9 +65,12 @@ app.post("/", async (req: Request, res: Response) => {
 //* Post
 
 app.get("/posts", async (req: Request, res: Response) => {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    include: {
+      author: true,
+    },
+  });
   res.json(posts);
-  console.log(posts);
 });
 
 app.get("/posts/recent", async (req: Request, res: Response) => {
@@ -97,18 +91,16 @@ app.get("/posts/recent", async (req: Request, res: Response) => {
 });
 
 app.post("/posts", async (req: Request, res: Response) => {
-  const { content, email, authorId } = req.body;
+  const { content, authorId } = req.body;
   try {
     const newPost = await prisma.post.create({
       data: {
         content,
-        email,
         authorId,
       },
     });
     res.status(201).json(newPost);
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ error: "An error occurred while creating the post" });

@@ -22,10 +22,9 @@ model User {
 model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @updatedAt
-  email     String   @unique
   content   String?
   author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+  authorId  String   @unique
 
   @@index([authorId])
 }
