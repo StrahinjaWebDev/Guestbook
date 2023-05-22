@@ -1,12 +1,15 @@
 import { config } from "dotenv";
 config();
 
-import express, { Request, Response, response } from "express";
-import { prisma } from "./utils/db";
-import jwt from "jsonwebtoken";
+import express from "express";
 import cors from "cors";
-import { Prisma } from "@prisma/client";
-import { Session } from "./model/Session";
+import { getUserController } from "./controllers/User/getUserController";
+import { postUserLoginController } from "./controllers/User/postUserLoginController";
+import { postNewUserController } from "./controllers/User/postNewUserController";
+import { getPostsController } from "./controllers/Post/getPostsController";
+import { getRecentPostsController } from "./controllers/Post/getRecentPostsController";
+import { postPostsController } from "./controllers/Post/postPostsController";
+import { deletePostController } from "./controllers/Post/deletePostController";
 
 const PORT = 5000;
 
@@ -20,106 +23,22 @@ app.use(
 
 app.use(express.json());
 
-const sessions: Session = {};
-
 //* User
 
-app.get("/users", async (req: Request, res: Response) => {
-  const users = await prisma.user.findMany();
-  res.json(users);
-});
+app.get("/users", getUserController);
 
-app.post("/users/login", async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+app.post("/users/login", postUserLoginController);
 
-  const user = await prisma.user.findUnique({
-    where: { username },
-  });
-
-  if (!user || user.password !== password) {
-    res.status(401).json({ error: "Invalid username or password" });
-  } else {
-    const { id, username } = user;
-    const token = jwt.sign(
-      { id, username },
-      process.env.TOKEN_SECRET as string,
-      {
-        expiresIn: "1800s",
-      }
-    );
-
-    res.json(token);
-  }
-});
-
-app.post("/", async (req: Request, res: Response) => {
-  const newUser = await prisma.user.create({
-    data: {
-      id: req.body.id,
-      username: req.body.username,
-      password: req.body.password,
-    },
-  });
-});
+app.post("/", postNewUserController);
 
 //* Post
 
-app.get("/posts", async (req: Request, res: Response) => {
-  const posts = await prisma.post.findMany({
-    include: {
-      author: true,
-    },
-  });
-  res.json(posts);
-});
+app.get("/posts", getPostsController);
 
-app.get("/posts/recent", async (req: Request, res: Response) => {
-  const posts = await prisma.post.findMany({
-    take: 10,
-    orderBy: { createdAt: "desc" } as Prisma.PostOrderByWithRelationInput,
-    include: {
-      author: true,
-    },
-  });
+app.get("/posts/recent", getRecentPostsController);
 
-  const postsWithAuthor = posts.map((post) => ({
-    ...post,
-    author: post.author.username,
-  }));
+app.post("/posts", postPostsController);
 
-  res.json(postsWithAuthor);
-});
-
-app.post("/posts", async (req: Request, res: Response) => {
-  const { content, authorId } = req.body;
-  try {
-    const newPost = await prisma.post.create({
-      data: {
-        content,
-        authorId,
-      },
-    });
-    res.status(201).json(newPost);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while creating the post" });
-  }
-});
-
-app.delete("/posts/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  try {
-    const deletedPost = await prisma.post.delete({
-      where: { id: id },
-    });
-    res.json(deletedPost);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while deleting the post" });
-  }
-});
+app.delete("/posts/:id", deletePostController);
 
 app.listen(PORT, () => console.log("Log check"));
