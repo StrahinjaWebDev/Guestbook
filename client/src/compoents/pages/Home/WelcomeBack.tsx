@@ -36,7 +36,7 @@ const WelcomeBack = () => {
   }, []);
 
   return (
-    <div className="w-[20em] bg-second h-3/4 xl:w-[40em] rounded-[90px] flex flex-col justify-around mt-[10em] xl:mt-0">
+    <div className="w-[20em] bg-second h-[24em] xl:h-3/4 xl:w-[40em] rounded-[90px] flex flex-col justify-around mt-[6em] xl:mt-0">
       <div className="mt-3 flex justify-center gap-6 xl:text-2xl">
         <p className="text-first font-semibold">Welcome back</p>
         {user && (

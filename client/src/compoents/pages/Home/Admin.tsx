@@ -52,7 +52,7 @@ const Admin = () => {
   return (
     <>
       {user?.admin && (
-        <div className="w-[20em] bg-second h-[14em] xl:h-[70%] xl:w-[40em] rounded-[90px] flex flex-col gap-5 items-center">
+        <div className="w-[20em] bg-second h-[23em] xl:h-[70%] xl:w-[40em] rounded-[90px] flex flex-col gap-5 items-center">
           <p className="mt-7 text-fourth text-opacity-50 font-bold text-2xl">Manage users</p>
           <Button label="Add new user" secondary onClick={() => setAddUser(true)} />
           {addUser && createPortal(<AddUserModal onCancel={() => setAddUser(false)} />, document.body)}
@@ -72,7 +72,11 @@ const Admin = () => {
                     }}
                     primary
                   />
-                  {editUser && createPortal(<EditUserModal onCancel={() => setEditUser(false)} user={selectedUser} />, document.body)}
+                  {editUser &&
+                    createPortal(
+                      <EditUserModal onCancel={() => setEditUser(false)} user={selectedUser} setEditUser={setEditUser} />,
+                      document.body
+                    )}
                 </div>
               );
             })}
