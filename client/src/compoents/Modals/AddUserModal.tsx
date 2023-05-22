@@ -68,7 +68,7 @@ const AddUserModal = ({ onCancel }: Props) => {
 
         <div className="flex gap-3 items-center">
           <p className="text-fourth text-opacity-80 font-medium">
-            Is new user admin? <span className="text-lime-500">{admin ? "Yes" : "No"}</span>
+            Is new user admin? <span className="text-emerald-600 text-lg">{admin ? "Yes" : "No"}</span>
           </p>
           <Button primary label="Yes" onClick={() => setAdmin(true)} />
           <Button third label="No" onClick={() => setAdmin(false)} />

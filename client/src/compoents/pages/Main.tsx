@@ -33,7 +33,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (user === null && !isLoading) {
       navigate("/");
     }
   }, [user]);

@@ -24,7 +24,7 @@ const PromptModal = ({ message, closeMessage, onConfirm, onCancel, confirmMessag
   return (
     <div className="fixed h-screen w-screen  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
       <div
-        className={`absolute transform animation-forwards text-second bg-fourth min-h-[8em] w-[15em] flex flex-col rounded-2xl justify-center border-white border-2 items-center 
+        className={`absolute transform animation-forwards text-second bg-fourth min-h-[8em] w-[15em] flex flex-col rounded-2xl justify-center border-first border-2 items-center 
         ${!isClosing ? "animate-[appearScale_0.2s_ease]" : "animate-[dissAppearScale_0.2s_ease]"}
         `}
       >
