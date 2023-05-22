@@ -7,11 +7,13 @@ import { toast } from "react-hot-toast";
 import { createPortal } from "react-dom";
 import AddUserModal from "../../Modals/AddUserModal";
 import { deleteUser } from "../../../api/UserApi/deleteUser";
+import EditUserModal from "../../Modals/EditUserModal";
 
 const Admin = () => {
   const [users, setUsers] = useState<User[] | []>([]);
   const [addUser, setAddUser] = useState(false);
-
+  const [editUser, setEditUser] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const { user } = useContext(appContext);
 
   const fetchAllUsers = async () => {
@@ -58,9 +60,19 @@ const Admin = () => {
             {users.map((user) => {
               return (
                 <div key={user.id} className="flex justify-between items-center w-[15em] xl:w-[30em] mt-5 ">
-                  <p className="flex-grow text-fourth text-opacity-100 ml-4 text-lg">{user.username}</p>
+                  <p className="flex-grow text-fourth text-opacity-100 ml-4 text-lg">
+                    {user.username} <span className="text-red-700 font-bold text-base text-opacity-80"> {user.admin ? "(ADMIN)" : ""}</span>
+                  </p>
                   <Button label="Delete" onClick={() => user.id && handleDeleteUser(user.id)} third />
-                  <Button label="Edit" primary />
+                  <Button
+                    label="Edit"
+                    onClick={() => {
+                      setEditUser(true);
+                      setSelectedUser(user);
+                    }}
+                    primary
+                  />
+                  {editUser && createPortal(<EditUserModal onCancel={() => setEditUser(false)} user={selectedUser} />, document.body)}
                 </div>
               );
             })}
