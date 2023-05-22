@@ -24,8 +24,8 @@ model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @updatedAt
   content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @unique
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String?
 
   @@index([authorId])
 }
