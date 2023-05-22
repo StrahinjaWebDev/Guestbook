@@ -5,12 +5,12 @@ import { appContext } from "../../../../context/AppProvider";
 import jwtDecode from "jwt-decode";
 import { loginUser } from "../../../api/UserApi/loginUser";
 
-interface LoginFormProps {
+interface Props {
   // eslint-disable-next-line no-unused-vars
   setModal: (isOpen: boolean) => void;
 }
 
-const LoginForm = ({ setModal }: LoginFormProps) => {
+const LoginForm = ({ setModal }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 

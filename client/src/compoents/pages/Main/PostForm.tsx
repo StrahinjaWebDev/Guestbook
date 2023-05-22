@@ -8,11 +8,11 @@ import { toast } from "react-hot-toast";
 import { postMessage } from "../../../api/PostApi/postMessage";
 import { Post } from "../../../model/Post";
 
-interface PostFormProps {
+interface Props {
   posts: Post[] | [];
 }
 
-const PostForm = ({ posts }: PostFormProps) => {
+const PostForm = ({ posts }: Props) => {
   const [message, setMessage] = useState("");
   const [requestLoading, setRequestLoading] = useState(false);
   const [httpStatus, setHttpStatus] = useState("");

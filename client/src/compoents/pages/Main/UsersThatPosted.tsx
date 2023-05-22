@@ -4,13 +4,13 @@ import { deletePost } from "../../../api/PostApi/deletePost";
 import { Post } from "../../../model/Post";
 import { appContext } from "../../../../context/AppProvider";
 
-interface UsersThatPostedProps {
+interface Props {
   posts: Post[] | [];
   // eslint-disable-next-line no-unused-vars
   setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 }
 
-const UsersThatPosted = ({ posts, setPosts }: UsersThatPostedProps) => {
+const UsersThatPosted = ({ posts, setPosts }: Props) => {
   const { user } = useContext(appContext);
 
   const handleDeletePost = async (postId: string) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-interface IInputProps extends React.HTMLAttributes<HTMLInputElement> {
+interface Props extends React.HTMLAttributes<HTMLInputElement> {
   primary?: boolean;
   secondary?: boolean;
   disabledInput?: boolean;
@@ -13,7 +13,7 @@ interface IInputProps extends React.HTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
 }
 
-const Input = ({ value, placeholder, onChange, primary, secondary, disabledInput, disabled, ...props }: IInputProps) => {
+const Input = ({ value, placeholder, onChange, primary, secondary, disabledInput, disabled, ...props }: Props) => {
   const primaryInputClasses = "rounded-[60px] w-[13em] h-[2.2em] placeholder:pl-2 pl-2 xl:w-[25em]";
   const secondaryInputClasses =
     "peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0";
