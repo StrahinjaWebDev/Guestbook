@@ -11,6 +11,7 @@ import { getRecentPostsController } from "./controllers/Post/getRecentPostsContr
 import { postPostsController } from "./controllers/Post/postPostsController";
 import { deletePostController } from "./controllers/Post/deletePostController";
 import { deleteUserControler } from "./controllers/User/deleteUserCotroller";
+import { putUserController } from "./controllers/User/putUserController";
 
 const PORT = 5000;
 
@@ -31,6 +32,8 @@ app.get("/users", getUserController);
 app.post("/login", postUserLoginController);
 
 app.post("/user", postNewUserController);
+
+app.put("/user/:userId", putUserController);
 
 app.delete("/user/:id", deleteUserControler);
 
