@@ -27,7 +27,7 @@ app.use(express.json());
 
 app.get("/users", getUserController);
 
-app.post("/users/login", postUserLoginController);
+app.post("/login", postUserLoginController);
 
 app.post("/", postNewUserController);
 
