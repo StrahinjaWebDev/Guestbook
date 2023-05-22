@@ -8,7 +8,7 @@ export async function deletePostController(req: Request, res: Response) {
     const deletedPost = await prisma.post.delete({
       where: { id: id },
     });
-    res.json(deletedPost);
+    res.status(200).json(deletedPost);
   } catch (error) {
     res
       .status(500)

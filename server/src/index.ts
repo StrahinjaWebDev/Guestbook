@@ -29,7 +29,7 @@ app.get("/users", getUserController);
 
 app.post("/login", postUserLoginController);
 
-app.post("/", postNewUserController);
+app.post("/user", postNewUserController);
 
 //* Post
 

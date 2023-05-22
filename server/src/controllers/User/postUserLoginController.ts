@@ -12,9 +12,9 @@ export async function postUserLoginController(req: Request, res: Response) {
   if (!user || user.password !== password) {
     res.status(401).json({ error: "Invalid username or password" });
   } else {
-    const { id, username } = user;
+    const { id, username, admin } = user;
     const token = jwt.sign(
-      { id, username },
+      { id, username, admin },
       process.env.TOKEN_SECRET as string,
       {
         expiresIn: "1800s",
