@@ -10,7 +10,7 @@ export async function putUserController(req: Request, res: Response) {
       where: { id },
       data: { password, admin },
     });
-    res.json({ message: "User updated successfully!" });
+    res.status(200).json({ message: "User updated successfully!" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error while updating user" });
