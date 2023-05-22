@@ -6,6 +6,7 @@ import { User } from "../../../model/User";
 import { toast } from "react-hot-toast";
 import { createPortal } from "react-dom";
 import AddUserModal from "../../Modals/AddUserModal";
+import { deleteUser } from "../../../api/UserApi/deleteUser";
 
 const Admin = () => {
   const [users, setUsers] = useState<User[] | []>([]);
@@ -21,6 +22,21 @@ const Admin = () => {
       } else {
         console.log(response.error);
         toast.error("Error while loading users, please try again later...");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      const userToDelete = users?.find((user) => user.id === userId);
+      if (userToDelete?.id === userId) {
+        await deleteUser(userId);
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        toast.success("User deleted successfully!");
+      } else {
+        toast.error("Error while deleting user, please try again later...");
       }
     } catch (error) {
       console.log(error);
@@ -43,7 +59,7 @@ const Admin = () => {
               return (
                 <div key={user.id} className="flex justify-between items-center w-[15em] xl:w-[30em] mt-5 ">
                   <p className="flex-grow text-fourth text-opacity-100 ml-4 text-lg">{user.username}</p>
-                  <Button label="Delete" third />
+                  <Button label="Delete" onClick={() => user.id && handleDeleteUser(user.id)} third />
                   <Button label="Edit" primary />
                 </div>
               );
