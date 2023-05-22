@@ -26,7 +26,6 @@ const Login = () => {
     if (response.success && response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser && setUser(jwtDecode(response.data));
-      console.log(user?.admin);
     } else {
       setModal(true);
     }
@@ -48,7 +47,7 @@ const Login = () => {
             <Input primary placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
             <Input type="password" primary placeholder=" Password..." value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
-          <Button label="Login" third onClick={handleSignIn} />
+          <Button label="Login" login onClick={handleSignIn} />
         </div>
         {modal &&
           createPortal(
