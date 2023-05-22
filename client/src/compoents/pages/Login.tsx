@@ -18,15 +18,15 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSignIn = async () => {
-    const user = {
+    const userLogin = {
       username: username,
       password: password,
     };
-    const response = await loginUser(user);
+    const response = await loginUser(userLogin);
     if (response.success && response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser && setUser(jwtDecode(response.data));
-      navigate("/home");
+      console.log(user?.admin);
     } else {
       setModal(true);
     }
@@ -45,14 +45,8 @@ const Login = () => {
           <span className="text-lg text-fourth xl:text-2xl text-opacity-60">Write your messages freely</span>
           <p className="text-xl text-fourth xl:text-3xl">Login to the Guestbook</p>
           <div className="flex justify-center items-center flex-col gap-2">
-            <Input primary="true" placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
-            <Input
-              type="password"
-              primary="true"
-              placeholder=" Password..."
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Input primary placeholder=" Username..." value={username} onChange={(e) => setUsername(e.target.value)} />
+            <Input type="password" primary placeholder=" Password..." value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <Button label="Login" third onClick={handleSignIn} />
         </div>

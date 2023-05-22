@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { getPosts } from "../../api/PostApi/getPosts";
 import { Post } from "../../model/Post";
 import { deletePost } from "../../api/PostApi/deletePost";
-import PromptModal from "../Modals/PromptModal";
-import { createPortal } from "react-dom";
 
 const Main = () => {
   const [message, setMessage] = useState("");

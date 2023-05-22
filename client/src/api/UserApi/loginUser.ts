@@ -1,23 +1,21 @@
 import ApiClient from "../BaseApi/ApiClient";
-import { AxiosResponse, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { User } from "../../model/User";
 
 interface ResponseType<T> {
-  success: Boolean;
+  success: boolean;
   data?: T;
   error?: string;
 }
 
-const loginUser = async (User: User): Promise<ResponseType<User[]>> => {
+const loginUser = async (user: User): Promise<ResponseType<User[]>> => {
   try {
-    const { data, status }: AxiosResponse<User[]> = await ApiClient.post<User[]>("/users/login", User);
+    const { data } = await ApiClient.post<User[]>("/login", user);
 
-    const response: ResponseType<User[]> = { success: true, data };
-    return response;
+    return { success: true, data };
   } catch (error) {
     const { message } = error as AxiosError;
-    const response: ResponseType<User[]> = { success: false, error: message };
-    return response;
+    return { success: false, error: message };
   }
 };
 
