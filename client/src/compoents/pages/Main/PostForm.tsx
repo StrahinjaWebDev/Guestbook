@@ -17,7 +17,7 @@ const PostForm = ({ posts }: PostFormProps) => {
   const [requestLoading, setRequestLoading] = useState(false);
   const [httpStatus, setHttpStatus] = useState("");
 
-  const { user, isLoading } = useContext(appContext);
+  const { user } = useContext(appContext);
 
   const handlePostMessage = async () => {
     setRequestLoading(true);

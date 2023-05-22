@@ -17,7 +17,7 @@ function Home() {
 
   return (
     <>
-      <div className="flex items-center justify-center h-[80vh] gap-[4em] flex-col xl:flex-row">
+      <div className="flex items-center justify-center h-[80vh] gap-3 xl:gap-[4em] flex-col xl:flex-row">
         <WelcomeBack />
         <Admin />
       </div>

@@ -1,0 +1,22 @@
+import ApiClient from "../BaseApi/ApiClient";
+import { AxiosError } from "axios";
+import { User } from "../../model/User";
+
+interface ResponseType<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+}
+
+const createNewUser = async (user: User): Promise<ResponseType<User[]>> => {
+  try {
+    const { data } = await ApiClient.post<User[]>("/user", user);
+
+    return { success: true, data };
+  } catch (error) {
+    const { message } = error as AxiosError;
+    return { success: false, error: message };
+  }
+};
+
+export { createNewUser };

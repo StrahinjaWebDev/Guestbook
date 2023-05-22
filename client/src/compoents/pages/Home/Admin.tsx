@@ -4,9 +4,12 @@ import Button from "../../Custom/Button";
 import { getUsers } from "../../../api/UserApi/getUsers";
 import { User } from "../../../model/User";
 import { toast } from "react-hot-toast";
+import { createPortal } from "react-dom";
+import AddUserModal from "../../Modals/AddUserModal";
 
 const Admin = () => {
   const [users, setUsers] = useState<User[] | []>([]);
+  const [addUser, setAddUser] = useState(false);
 
   const { user } = useContext(appContext);
 
@@ -31,13 +34,14 @@ const Admin = () => {
   return (
     <>
       {user?.admin && (
-        <div className="w-[20em] bg-second h-[70%] xl:w-[40em] rounded-[90px] flex flex-col gap-5 items-center">
+        <div className="w-[20em] bg-second h-[14em] xl:h-[70%] xl:w-[40em] rounded-[90px] flex flex-col gap-5 items-center">
           <p className="mt-7 text-fourth text-opacity-50 font-bold text-2xl">Manage users</p>
-          <Button label="Add new user" secondary />
-          <div className="bg-first flex flex-col gap-4 rounded-2xl">
+          <Button label="Add new user" secondary onClick={() => setAddUser(true)} />
+          {addUser && createPortal(<AddUserModal onCancel={() => setAddUser(false)} />, document.body)}
+          <div className="bg-first bg-opacity-20 flex flex-col gap-4 rounded-2xl scroll-modern overflow-y-auto max-h-[20em]">
             {users.map((user) => {
               return (
-                <div key={user.id} className="flex justify-between items-center w-[15em] xl:w-[30em] mt-5">
+                <div key={user.id} className="flex justify-between items-center w-[15em] xl:w-[30em] mt-5 ">
                   <p className="flex-grow text-fourth text-opacity-100 ml-4 text-lg">{user.username}</p>
                   <Button label="Delete" third />
                   <Button label="Edit" primary />
