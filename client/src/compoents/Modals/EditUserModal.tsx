@@ -9,6 +9,7 @@ interface Props {
   onConfirm?: () => void;
   onCancel?: () => void;
   user?: User | null;
+  // eslint-disable-next-line no-unused-vars
   setEditUser?: (isOpen: boolean) => void;
 }
 
