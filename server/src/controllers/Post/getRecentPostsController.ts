@@ -14,7 +14,7 @@ export async function getRecentPostsController(req: Request, res: Response) {
 
     const postsWithAuthor = posts.map((post) => ({
       ...post,
-      author: post.author.username,
+      author: post.author?.username,
     }));
 
     res.status(200).json(postsWithAuthor);
