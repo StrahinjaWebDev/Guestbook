@@ -1,14 +1,14 @@
-    Dobrodošli u naš projekat Guestbook! Napisan u Express-u i React-u sa MYSql bazom u Prismi.
+    Dobrodošli u moj projekat Guestbook! Napisan u Express-u i React-u sa MYSql bazom u Prismi.
 
 -Pokretanje aplikacije
 
-Za pokretanje ovog aplikacije potrebno je pokrenuti server komponentu (Backend) i klient komponentu (Frontend). Za vizualno prikazivanje baze moguce je pokrenuti Prismu (npx prisma studio). Aplikacija je responsive.
+Za pokretanje ovog aplikacije potrebno je pokrenuti server komponentu (Backend) i klient komponentu (Frontend) za pokretanje aplikacije na serveru i na klientu koristiti komandu npm run dev. Za vizualno prikazivanje baze moguce je pokrenuti Prismu (npx prisma studio). Aplikacija je responsive.
 
 ---Login page
 
-Login je prva komponenta koja se prikazuje prilikom pokretanje aplikacije 
+Login je prva komponenta koja se prikazuje prilikom pokretanje aplikacije.
 
--Za login na aplikaciju mozete koristiti neki od usera: 
+-Za login na aplikaciju mozete koristiti neki od napravljenih usera:
 
 ----- ADMIN USERI: username: Ognjen password: Admin321   ---- Pocetno slovo u passwordu treba biti veliko
                    username: Cedomir password: Admin123
@@ -17,6 +17,8 @@ Login je prva komponenta koja se prikazuje prilikom pokretanje aplikacije
                    username: Random password:1234    
                             
 -Prilikom logovanja ako user ne ukuca dobar username ili password dobice obavestenje kako nije uneo dobar username ili password.
+
+-Kada se User uspesno prijavi na svoj nalog njegovi podaci se stavljaju o LocalStorage i hashovani su sa jwt tokenom na bekendu, kasnije na frontendu koristimo jwtdecode da bi dekodirali usera i njegove da bi mogli da koristimo njegove podatke u aplikaciji. 
 
 ---Home page
 
